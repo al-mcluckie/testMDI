@@ -31,4 +31,4 @@ jobs:
 
     - name: MSBuild
       working-directory: testMDI
-      run: msbuild testMDI.csproj
+      run: msbuild testMDI.vcxproj
