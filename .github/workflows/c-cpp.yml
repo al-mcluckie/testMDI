@@ -15,9 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.1
-      with:
-        # vswhere-path: #optional
-        vs-version: '[16.5.4,16.5.4)'
+      #with:
+        #vswhere-path: #optional
+        #vs-version: '[16.5.4,16.5.4)'
       
 #   - name: Setup MSBuild.exe
 #     uses: warrenbuckley/Setup-MSBuild@v1
