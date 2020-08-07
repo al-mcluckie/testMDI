@@ -1,0 +1,34 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.1
+      with:
+        vs-version: '[16.4,16.5)'
+      
+#   - name: Setup MSBuild.exe
+#     uses: warrenbuckley/Setup-MSBuild@v1
+
+#    - name: setup-msbuild
+#      uses: microsoft/setup-msbuild@v1.0.1
+#      with:
+#        # Folder location of where vswhere.exe is located if a self-hosted agent
+#        vswhere-path: # optional
+#        # Version of Visual Studio to search; defaults to latest if not specified
+#        vs-version: '[16.5)' #'[16.4,16.5)'
+
+    - name: MSBuild
+      working-directory: testMDI
+      run: msbuild testMDI.csproj
