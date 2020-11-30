@@ -1,10 +1,10 @@
-name: C/C++ CI
+name: Test C++ Build
 
 on:
   push:
     branches: [ master ]
   pull_request:
-    branches: [ master ]
+#    branches: [ master ]
 
 jobs:
   build:
@@ -12,16 +12,24 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.1
-      #with:
-        #vswhere-path: #optional
-        #vs-version: '[16.5.4,16.5.4)'
+#    - uses: actions/checkout@v2
+#    - name: Add msbuild to PATH
+#      uses: microsoft/setup-msbuild@v1.0.1
+#      #with:
+#        #vswhere-path: #optional
+#        #vs-version: '[16.5.4,16.5.4)'
       
-#   - name: Setup MSBuild.exe
-#     uses: warrenbuckley/Setup-MSBuild@v1
+#    - name: MSBuild
+#      working-directory: testMDI
+#      run: msbuild testMDI.vcxproj
 
-    - name: MSBuild
-      working-directory: testMDI
-      run: msbuild testMDI.vcxproj
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+
+    - name: get pullrequest url
+      run: |
+        echo ${{ github.event.issue.pull_request.url }}
+
+
