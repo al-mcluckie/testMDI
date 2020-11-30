@@ -1,8 +1,8 @@
 name: Test C++ Build
 
 on:
-  push:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
   pull_request:
 #    branches: [ master ]
 
@@ -28,8 +28,8 @@ jobs:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
 
-    - name: get pullrequest url
+    - name: get pullrequest comment
       run: |
-        echo ${{ github.event.issue.pull_request.url }}
+        echo "PR comment: ${{ github.event.pull_request.body }}"
 
 
