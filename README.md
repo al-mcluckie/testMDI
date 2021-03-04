@@ -1,3 +1,5 @@
 # testMDI app
 
 blah
+.
+
