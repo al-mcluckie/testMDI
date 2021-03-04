@@ -1,5 +1,6 @@
 # testMDI app
 
 blah
-.
+
+update
 
