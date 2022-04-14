@@ -5,11 +5,16 @@ on:
 #    branches: [ master ]
   pull_request:
 #    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
   build:
 
     runs-on: windows-latest
+    defaults:
+      run:
+        shell: powershell
+        # working-directory: .\Source
 
     steps:
 #    - uses: actions/checkout@v2
@@ -29,7 +34,16 @@ jobs:
       run: echo "$GITHUB_CONTEXT"
 
     - name: get pullrequest comment
+      env:
+        ENV_PR_BODY: ${{github.event.pull_request.body}}
+        ENV_PR_TITLE: ${{github.event.pull_request.title}}
+        
       run: |
-        echo "PR comment: ${{ github.event.pull_request.body }}"
+        $env_pr_body =  $env:ENV_PR_BODY -replace "`r","" -replace "`n",", " -replace "`"","" -replace "'",""
+        $env_pr_body
+        $env_pr_title =  $env:ENV_PR_TITLE -replace "`r","" -replace "`n",", " -replace "`"","" -replace "'",""
+        $env_pr_title
+        
+        
 
 
