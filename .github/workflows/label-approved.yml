@@ -1,6 +1,6 @@
 name: Label approved PR
 on: 
-  pull_request:
+#  pull_request:
 #    types: [submitted]
   pull_request_review:
 #    types: [submitted]
@@ -42,15 +42,3 @@ jobs:
         ADD_LABEL: "approved"
         REMOVE_LABEL: "review%20required,requires%20changes"
 
-  labelWhenRequiresChanges:
-    name: Requires Changes label
-    if: github.event.review.state != 'approved' && github.event.review.user.login != github.event.pull_request.user.login
-    runs-on: ubuntu-latest
-    steps:
-    - name: Add Requires changes label
-      uses: upinetree/labeler@fix-pull-request-param
-        #andymckay/labeler@1.0.3
-      with:
-        add-labels: "requires changes"
-        remove-labels: "review required, approved"
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
