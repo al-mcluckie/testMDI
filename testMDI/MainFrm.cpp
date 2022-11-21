@@ -1,6 +1,6 @@
 // MainFrm.cpp : implementation of the CMainFrame class
 // 
-// test
+// test...
 //
 
 #include "stdafx.h"
