@@ -4,9 +4,19 @@ on:
     types: [submitted]
 
 jobs:
+    
+  DumpContext:
+      name: Dump GitHub context
+      runs-on: ubuntu-latest
+      steps:
+        - name: Github Context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
+      
   labelDevelopWhenApproved:
     name: Label develop when approved
-    if: github.base_ref == 'develop'
+    if: github.base_ref == 'master'
     runs-on: ubuntu-latest
     steps:
     - name: Label when approved
@@ -19,7 +29,7 @@ jobs:
 
   labelOtherWhenApproved:
     name: Label other when approved
-    if: github.base_ref != 'develop'
+    if: github.base_ref != 'master'
     runs-on: ubuntu-latest
     steps:
     - name: Label when approved
