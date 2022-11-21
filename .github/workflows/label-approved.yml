@@ -1,9 +1,9 @@
 name: Label approved PR
 on: 
   pull_request:
-    types: [submitted]
+#    types: [submitted]
   pull_request_review:
-    types: [submitted]
+#    types: [submitted]
 
 jobs:
     
