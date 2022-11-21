@@ -43,7 +43,8 @@ jobs:
         $env_pr_body
         $env_pr_title =  $env:ENV_PR_TITLE -replace "`r","" -replace "`n",", " -replace "`"","" -replace "'",""
         $env_pr_title
+        Get-ChildItem -Path ".\" `
+          -Recurse `
+          -Force
         
-        
-
-
+      

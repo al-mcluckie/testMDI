@@ -1,0 +1,54 @@
+name: Label approved PR
+on: 
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+    
+  DumpContext:
+      name: Dump GitHub context
+      runs-on: ubuntu-latest
+      steps:
+        - name: Github Context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
+      
+  labelDevelopWhenApproved:
+    name: Label develop when approved
+    if: github.base_ref == 'master'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Label when approved
+      uses: abinoda/label-when-approved-action@1.0.5
+      env:
+        APPROVALS: "2"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ADD_LABEL: "approved"
+        REMOVE_LABEL: "review%20required,requires%20changes"
+
+  labelOtherWhenApproved:
+    name: Label other when approved
+    if: github.base_ref != 'master'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Label when approved
+      uses: abinoda/label-when-approved-action@1.0.5
+      env:
+        APPROVALS: "1"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ADD_LABEL: "approved"
+        REMOVE_LABEL: "review%20required,requires%20changes"
+
+  labelWhenRequiresChanges:
+    name: Requires Changes label
+    if: github.event.review.state != 'approved' && github.event.review.user.login != github.event.pull_request.user.login
+    runs-on: ubuntu-latest
+    steps:
+    - name: Add Requires changes label
+      uses: upinetree/labeler@fix-pull-request-param
+        #andymckay/labeler@1.0.3
+      with:
+        add-labels: "requires changes"
+        remove-labels: "review required, approved"
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
