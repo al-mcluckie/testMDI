@@ -1,5 +1,5 @@
 
-name: Label new PR
+name: Label PR when new
 on:
   pull_request_target: #make sure this runs even if there are conflicts
     types:

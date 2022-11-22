@@ -1,4 +1,4 @@
-name: Label approved PR
+name: Label PR as approved
 on: 
 #  pull_request:
 #    types: [submitted]
@@ -17,28 +17,38 @@ jobs:
           run: echo "$GITHUB_CONTEXT"
       
   labelDevelopWhenApproved:
+    # As this action doesn't support multiple label removal, run it twice to remove
+    # review%20required then requires%20changes
     name: Label develop when approved
-    if: github.base_ref == 'master'
+    if: github.event.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
-    - name: Label when approved
-      uses: abinoda/label-when-approved-action@1.0.5
-      env:
-        APPROVALS: "2"
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ADD_LABEL: "approved"
-        REMOVE_LABEL: "review%20required,requires%20changes"
-
-  labelOtherWhenApproved:
-    name: Label other when approved
-    if: github.base_ref != 'master'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Label when approved
+    - name: Label approved (
       uses: abinoda/label-when-approved-action@1.0.5
       env:
         APPROVALS: "1"
+        # APPROVALS: "2"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ADD_LABEL: "approved"
-        REMOVE_LABEL: "review%20required,requires%20changes"
+        REMOVE_LABEL: "review%20required"
+    - name: Label (remove only)
+      uses: abinoda/label-when-approved-action@1.0.5
+      env:
+        APPROVALS: "1"
+        # APPROVALS: "2"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REMOVE_LABEL: "requires%20changes"
+
+#  labelOtherWhenApproved:
+#    name: Label other when approved
+#    if: github.event.base.ref != 'master'
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Label when approved
+#      uses: abinoda/label-when-approved-action@1.0.5
+#      env:
+#        APPROVALS: "1"
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        ADD_LABEL: "approved"
+#        REMOVE_LABEL: "review%20required,requires%20changes"
 
