@@ -18,7 +18,8 @@ jobs:
       
   labelWhenRequiresChanges:
     name: Requires Changes label
-    if: github.event.review.state != 'approved' && github.event.review.user.login != github.event.pull_request.user.login
+    if: github.event.review.state != 'approved' 
+    #### && github.event.review.user.login != github.event.pull_request.user.login
     runs-on: ubuntu-latest
     steps:
     - name: Add Requires changes label
