@@ -1,0 +1,18 @@
+
+name: Label new pull request
+on:
+  pull_request_target: #make sure this runs even if there are conflicts
+    types:
+      [opened]
+      
+jobs:
+  label_issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simple Issue Labeler
+        uses: upinetree/labeler@fix-pull-request-param
+        #andymckay/labeler@1.0.3
+        with:
+          add-labels: "review required"
+          remove-labels: "requires changes, approved"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
