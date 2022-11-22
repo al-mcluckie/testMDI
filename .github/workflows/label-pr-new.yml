@@ -1,11 +1,21 @@
 
-name: Label new pull request
+name: Label new PR
 on:
   pull_request_target: #make sure this runs even if there are conflicts
     types:
       [opened]
       
 jobs:
+
+  DumpContext:
+      name: Dump GitHub context
+      runs-on: ubuntu-latest
+      steps:
+        - name: Github Context
+          env:
+            GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
+
   label_issues:
     runs-on: ubuntu-latest
     steps:
