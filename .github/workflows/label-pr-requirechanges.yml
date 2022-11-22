@@ -1,4 +1,4 @@
-name: Label changes required PR
+name: Label PR changes required
 on: 
 #  pull_request:
 #    types: [submitted]
