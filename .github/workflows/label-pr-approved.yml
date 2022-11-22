@@ -1,4 +1,4 @@
-name: Label approved PR
+name: Label PR as approved
 on: 
 #  pull_request:
 #    types: [submitted]
@@ -18,27 +18,28 @@ jobs:
       
   labelDevelopWhenApproved:
     name: Label develop when approved
-    if: github.base_ref == 'master'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Label when approved
-      uses: abinoda/label-when-approved-action@1.0.5
-      env:
-        APPROVALS: "2"
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ADD_LABEL: "approved"
-        REMOVE_LABEL: "review%20required,requires%20changes"
-
-  labelOtherWhenApproved:
-    name: Label other when approved
-    if: github.base_ref != 'master'
+    if: github.event.base.ref == 'master'
     runs-on: ubuntu-latest
     steps:
     - name: Label when approved
       uses: abinoda/label-when-approved-action@1.0.5
       env:
         APPROVALS: "1"
+        # APPROVALS: "2"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ADD_LABEL: "approved"
         REMOVE_LABEL: "review%20required,requires%20changes"
+
+#  labelOtherWhenApproved:
+#    name: Label other when approved
+#    if: github.event.base.ref != 'master'
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Label when approved
+#      uses: abinoda/label-when-approved-action@1.0.5
+#      env:
+#        APPROVALS: "1"
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        ADD_LABEL: "approved"
+#        REMOVE_LABEL: "review%20required,requires%20changes"
 
