@@ -1,0 +1,34 @@
+name: Test
+
+on:
+  #push:
+  #pull_request:
+    #branches:
+    #  - develop  
+  workflow_dispatch:
+  #schedule:
+    #- cron: "0 22 * * 1-5"
+    #- cron: "*/5 * * * 1-5"
+
+jobs:
+  Test:
+    name: Test stuff
+    runs-on: ubuntu-latest
+   
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Run starting
+        run: echo "Run starting $((Get-Date).tostring())"
+
+      - name: Find in branch name
+        id: findIssueKey
+        uses: atlassian/gajira-find-issue-key@master
+        with:
+       #from: branch
+         string: ${{ github.head_ref }}
+      
+      - name: Find issue type
+        id: issuetype
+        uses: al-mcluckie/jira-issue-type@main
+        with:
+          issue: ${{ steps.findIssueKey.outputs.issue }}
