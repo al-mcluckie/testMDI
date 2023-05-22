@@ -31,8 +31,8 @@ jobs:
         id: findIssueKey
         uses: atlassian/gajira-find-issue-key@master
         with:
-       #from: branch
-         string: ${{ github.head_ref }}
+          #from: branch
+          string: ${{ github.head_ref }}
       
       - name: Find issue type
         id: issuetype
