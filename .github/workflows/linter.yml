@@ -1,0 +1,54 @@
+---
+#################################
+## Super Linter GitHub Actions ##
+#################################
+name: Lint Code Base
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.head_ref || github.run_id }}
+      cancel-in-progress: true
+
+    # Grant status permission for MULTI_STATUS
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
+
+    # Load all steps
+    steps:
+      # Show debug of github state
+      - name : GITHUB CONTEXT
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+        # Checkout the code base
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Full git history is needed to get a proper
+          # list of changed files within `super-linter`
+          fetch-depth: 0
+
+      # Run Linter against code base
+      - name: Lint Code Base
+        uses: super-linter/super-linter@v5
+        env:
+          LINTER_RULES_PATH: /.github/linters/
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_CPP: true
+          VALIDATE_GITHUB_ACTIONS: true
+          VALIDATE_POWERSHELL: true
+          VALIDATE_YAML: true
+          FILTER_REGEX_EXCLUDE: (.*ThirdPartyLibraries/.*)
+          
