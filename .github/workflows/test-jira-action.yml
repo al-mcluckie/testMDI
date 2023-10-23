@@ -20,12 +20,19 @@ jobs:
       - name: Run starting
         run: echo "Run starting $(( (Get-Date).tostring() ))"
 
+      - name: Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: 'https://advancedcsg.atlassian.net/'
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_API_LOGIN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TEST_API_TOKEN }}
+
       - name: Find in branch name
         id: findIssueKey
         uses: atlassian/gajira-find-issue-key@master
         with:
-       #from: branch
-         string: ${{ github.head_ref }}
+          from: branch
+          string: ${{ github.head_ref }}
       
       - name: Find issue type
         id: issuetype
